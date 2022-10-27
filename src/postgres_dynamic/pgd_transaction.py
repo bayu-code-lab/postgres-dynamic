@@ -37,7 +37,7 @@ class PGDTransaction:
             where_query=''
             for w in where:
                 where_query += f' {w["column_name"]} {w["operator"]} %s' if w.get('operator') else f' {w["column_name"]} = %s'
-                where_query += f' {w["conjuntion"]}' if w.get('conjuntion') else ' '
+                where_query += f' {w["conjunction"]}' if w.get('conjunction') else ' '
 
             query_template = """
                 UPDATE {main_table} SET {columns} WHERE {where_query}
@@ -65,7 +65,7 @@ class PGDTransaction:
             where_query=''
             for w in where:
                 where_query += f' {w["column_name"]} {w["operator"]} %s' if w.get('operator') else f' {w["column_name"]} = %s'
-                where_query += f' {w["conjuntion"]}' if w.get('conjuntion') else ' '
+                where_query += f' {w["conjunction"]}' if w.get('conjunction') else ' '
 
             query_template = """
                 DELETE FROM {main_table} WHERE {where_query}
