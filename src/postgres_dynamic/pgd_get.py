@@ -13,7 +13,7 @@ class PGDGet:
             where_query=''
             for w in where:
                 where_query += f' {w["column_name"]} {w["operator"]} %s' if w.get('operator') else f' {w["column_name"]} = %s'
-                where_query += f' {w["conjuntion"]}' if w.get('conjuntion') else ' '
+                where_query += f' {w["conjunction"]}' if w.get('conjunction') else ' '
             join_query = ''
             for i in join_table:
                 join_query += ' INNER JOIN' if i['join_method'] == 'INNER' else ' LEFT JOIN' if i['join_method'] == 'LEFT' else ' RIGHT JOIN'
@@ -42,7 +42,7 @@ class PGDGet:
             where_query=''
             for w in where:
                 where_query += f' {w["column_name"]} {w["operator"]} %s' if w.get('operator') else f' {w["column_name"]} = %s'
-                where_query += f' {w["conjuntion"]}' if w.get('conjuntion') else ' '
+                where_query += f' {w["conjunction"]}' if w.get('conjunction') else ' '
             order_query = 'ORDER BY ' + ''.join([key + f' {order[key]}' for key in order.keys()]) if len(order) == 1 else ' , '.join([key + f' {order[key]}' for key in order.keys()])
             join_query = ''
             for i in join_table:
@@ -73,13 +73,13 @@ class PGDGet:
             where_query=''
             for w in where:
                 where_query += f' {w["column_name"]} {w["operator"]} %s' if w.get('operator') else f' {w["column_name"]} = %s'
-                where_query += f' {w["conjuntion"]}' if w.get('conjuntion') else ' '
+                where_query += f' {w["conjunction"]}' if w.get('conjunction') else ' '
             join_query = ''
             for i in join_table:
                 join_query += ' INNER JOIN' if i['join_method'] == 'INNER' else ' LEFT JOIN' if i['join_method'] == 'LEFT' else ' RIGHT JOIN'
                 join_query += f' {i["table"]} {i["alias"]} ON {i["on"]}'
             query = query.format(main_table=main_table['table'], main_table_alias=main_table['alias'] if main_table.get('alias') else '', join_table=join_query, where_query=where_query)
-            where_values = tuple(wv['value'] for wv in where)
+            where_values = tuple(wv['value'] if isinstance(wv['value'], str) else tuple(wv['value']) for wv in where )
             values = where_values
             with PGDConnection(connection_string, query, values) as cursor:
                 result = cursor.fetchone()[0]
