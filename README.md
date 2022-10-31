@@ -135,8 +135,7 @@ Example DB
 
         query_result = PGDGet.get_one(
             connection_string={
-                'PG_HOST': 'localhost',
-                'PG_PORT': 5432,
+                'PG_HOST': 'localhost', #using default port 5432
                 'PG_DATABASE': 'postgres',
                 'PG_USER': 'postgres',
                 'PG_PASSWORD': 'password'  
@@ -159,8 +158,7 @@ Example DB
 
         query_result = PGDGet.get_one(
             connection_string={
-                'PG_HOST': 'localhost',
-                'PG_PORT': 5432,
+                'PG_HOST': 'localhost', #using default port 5432
                 'PG_DATABASE': 'postgres',
                 'PG_USER': 'postgres',
                 'PG_PASSWORD': 'password'  
@@ -210,8 +208,7 @@ Example DB
 
         query_result = PGDGet.get_all(
             connection_string={
-                'PG_HOST': 'localhost',
-                'PG_PORT': 5432,
+                'PG_HOST': 'localhost', #using default port 5432
                 'PG_DATABASE': 'postgres',
                 'PG_USER': 'postgres',
                 'PG_PASSWORD': 'password'  

@@ -6,7 +6,6 @@ class PGDConnection:
         self.values = values
         self.connection = psycopg2.connect(
             host = connection_string['PG_HOST'],
-            port = connection_string['PG_PORT'],
             database = connection_string['PG_DATABASE'],
             user = connection_string['PG_USER'],
             password = connection_string['PG_PASSWORD']
