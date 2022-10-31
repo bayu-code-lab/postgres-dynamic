@@ -1,15 +1,18 @@
 [build-system]
-requires = ["setuptools>=61.0", "psycopg2==2.9.5"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "postgres-dynamic"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
   { name="Bayu Satria Gemilang", email="bayu.code.lab@gmail.com" },
 ]
 description = "Fast API Google Cloud Storage"
 readme = "README.md"
+dependencies = [
+    "psycopg2>=2.9.3"
+]
 requires-python = ">=3.7"
 classifiers = [
     "Programming Language :: Python :: 3",
