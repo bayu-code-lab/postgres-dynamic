@@ -3,6 +3,18 @@
 Postgres dynamic is a simple query builder developed for internal usage. It currently supports select, insert, update, and delete statements.
 The purpose of this library is for better managament and maintenance of the code used in our environment.
 
+## Installation
+
+<div class="termy">
+
+```console
+$ pip install postgres-dynamic
+
+---> 100%
+```
+
+</div>
+
 ## Parameter Format:
 - connection_string: dict
     ```Python
