@@ -5,11 +5,11 @@ class PGDConnection:
         self.query = query
         self.values = values
         self.connection = psycopg2.connect(
-            host = connection_string['pg_host'],
-            port = connection_string['pg_port'],
-            database = connection_string['pg_database'],
-            user = connection_string['pg_user'],
-            password = connection_string['pg_password']
+            host = connection_string['PG_HOST'],
+            port = connection_string['PG_PORT'],
+            database = connection_string['PG_DATABASE'],
+            user = connection_string['PG_USER'],
+            password = connection_string['PG_PASSWORD']
         )
         self.cursor = self.connection.cursor()
 
