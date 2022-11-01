@@ -3,9 +3,21 @@
 Postgres dynamic is a simple query builder developed for internal usage. It currently supports select, insert, update, and delete statements.
 The purpose of this library is for better managament and maintenance of the code used in our environment.
 
+## Installation
+
+<div class="termy">
+
+```console
+$ pip install postgres-dynamic
+
+---> 100%
+```
+
+</div>
+
 ## Parameter Format:
 - connection_string: dict
-    ```
+    ```Python
     connection_string = {
         'PG_HOST': 'YOUR_CONNETION_HOST_ADDRESS',
         'PG_DATABASE': 'YOUR_CONNECTION_DATABASE_NAME',
@@ -14,11 +26,11 @@ The purpose of this library is for better managament and maintenance of the code
     }
     ```
 - connection_object: Callable
-    ```
+    ```Python
     connection_object = psycopg2.connect(host,port,database,user,password) #object created from psycopg2.connect()
     ```
 - where: List(dict)
-    ```
+    ```Python
     where = [
         {
             'column_name': 'some_column_name', 
@@ -32,7 +44,7 @@ The purpose of this library is for better managament and maintenance of the code
 - main_table: Union[dict, str]  
 
     For **select** query
-    ```
+    ```Python
     main_table = {
         'table': 'some_table_name', 
         'alias': 'some_alias_for_table',
@@ -40,12 +52,12 @@ The purpose of this library is for better managament and maintenance of the code
     ```
 
     For **transaction** query
-    ```
+    ```Python
     main_table = 'some_table_name'
     ```
 
 - join_table: List(dict)
-    ```
+    ```Python
     join_table = [
         {
             'table': 'some_table_name', 
@@ -57,19 +69,19 @@ The purpose of this library is for better managament and maintenance of the code
     ```
 
 - column_name: List(str)
-    ```
+    ```Python
     column_name = ['some_column_name', 'some_column_name', 'some_column_name',]
     ```
 
 - column_and_value: dict
-    ```
+    ```Python
     column_and_value = {
         'some_column_name': 'some_value', # for multiple values just provide more key:value pair 
     }
     ```
 
 - order: dict
-    ```
+    ```Python
     order = {
         'some_column_name': 'ASC', # accepted order values are (ASC, DESC), for multiple order conditions just provide more key:value pair 
     }
@@ -114,7 +126,7 @@ Example DB
         ```
         
         Code samples:
-        ```
+        ```Python
         # without joining table
 
         from postgres_dynamic import PGDGet
@@ -122,7 +134,7 @@ Example DB
 
         query_result = PGDGet.get_one(
             connection_string={
-                'PG_HOST': 'localhost',
+                'PG_HOST': 'localhost', #using default port 5432
                 'PG_DATABASE': 'postgres',
                 'PG_USER': 'postgres',
                 'PG_PASSWORD': 'password'  
@@ -140,12 +152,12 @@ Example DB
         # {'first_name': 'Alex'}
         ```
 
-        ```
+        ```Python
         # with join table salaries
 
         query_result = PGDGet.get_one(
             connection_string={
-                'PG_HOST': 'localhost',
+                'PG_HOST': 'localhost', #using default port 5432
                 'PG_DATABASE': 'postgres',
                 'PG_USER': 'postgres',
                 'PG_PASSWORD': 'password'  
@@ -189,13 +201,13 @@ Example DB
         ```
         
         Code samples:
-        ```
+        ```Python
         from postgres_dynamic import PGDGet
         import asyncio
 
         query_result = PGDGet.get_all(
             connection_string={
-                'PG_HOST': 'localhost',
+                'PG_HOST': 'localhost', #using default port 5432
                 'PG_DATABASE': 'postgres',
                 'PG_USER': 'postgres',
                 'PG_PASSWORD': 'password'  
@@ -226,13 +238,13 @@ Example DB
         ```
         
         Code samples:
-        ```
+        ```Python
         from postgres_dynamic import PGDGet
         import asyncio
 
         query_result = PGDGet.get_count(
             connection_string={
-                'PG_HOST': 'localhost',
+                'PG_HOST': 'localhost', #using default port 5432
                 'PG_DATABASE': 'postgres',
                 'PG_USER': 'postgres',
                 'PG_PASSWORD': 'password'  
@@ -265,7 +277,7 @@ Example DB
         ```
         
         Code samples:
-        ```
+        ```Python
         # with auto commit
 
         from postgres_dynamic import PGDTransaction
@@ -286,7 +298,7 @@ Example DB
         # will insert a new employee to the employees table
         ```
 
-        ```
+        ```Python
         # without auto commit
 
         connection_object = psycopg2.connect(database='postgres', host='localhost', port=5432, user='postgres', password='password')
@@ -326,7 +338,7 @@ Example DB
         ```
         
         Code samples:
-        ```
+        ```Python
         # with auto commit
 
         from postgres_dynamic import PGDTransaction
@@ -350,7 +362,7 @@ Example DB
         # will update employee first_name and last_name with id 6
         ```
 
-        ```
+        ```Python
         # without auto commit
 
         connection_object = psycopg2.connect(database='postgres', host='localhost', port=5432, user='postgres', password='password')
@@ -393,7 +405,7 @@ Example DB
         ```
         
         Code samples:
-        ```
+        ```Python
         # with auto commit
 
         from postgres_dynamic import PGDTransaction
@@ -416,7 +428,7 @@ Example DB
         # will delete salary data with employee_id 6
         ```
 
-        ```
+        ```Python
         # without auto commit
 
         connection_object = psycopg2.connect(database='postgres', host='localhost', port=5432, user='postgres', password='password')
