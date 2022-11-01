@@ -5,6 +5,32 @@ from postgres_dynamic.pgd_connection import PGDConnection
 class PGDGet:
     @classmethod
     async def get_one(cls, connection_string: dict, main_table: dict, where: list, join_table:list = [], column_name: list = None) -> Awaitable[dict]:
+        """Get one always return a single value from the query, based on fetchone in psycopg2 and returning a dictionary with {column_name: value} of the tables.
+        Please refer to documentation for thorough guide.
+        
+        Example parameters:  
+
+        connection_string={
+            'PG_HOST': 'localhost', #using default port 5432
+            'PG_DATABASE': 'postgres',
+            'PG_USER': 'postgres',
+            'PG_PASSWORD': 'password'  
+        } 
+
+        main_table={'table': 'employees', 'alias': 'emp'} #alias can be omitted 
+
+        join_table=[
+            {'table': 'salaries', 'alias': 'sal', 'join_method': 'INNER', 'on': 'emp.id = sal.emp_id'}
+        ]
+        #optional
+
+        where=[
+            {'column_name': 'id', 'value': '1', 'operator': '=', 'conjunction': 'AND'}, #operator and conjunction can be omitted
+        ] 
+        #conjunction only required when providing more than one dictionary
+
+        column_name=['first_name'] #can be omitted, when omitted it equals as `select * from blabla`
+        """
         try:
             result = {}
             column_name = ','.join(column_name) if column_name else '*'
@@ -37,6 +63,38 @@ class PGDGet:
 
     @classmethod
     async def get_all(cls, connection_string: dict, main_table: dict, where: list = [], join_table:list = [], order: dict = {}, column_name: list = None, limit: Optional[int] = None, offset: Optional[int] = None) -> Awaitable[dict]:
+        """Get all always return a dict with key data, based on fetchall in psycopg2 and returning a list of dictionary with {column_name: value} of the tables.
+        Please refer to documentation for thorough guide.
+        
+        Example parameters:  
+        
+        connection_string={
+            'PG_HOST': 'localhost', #using default port 5432
+            'PG_DATABASE': 'postgres',
+            'PG_USER': 'postgres',
+            'PG_PASSWORD': 'password'  
+        } 
+
+        main_table={'table': 'employees', 'alias': 'emp'} #alias can be omitted 
+
+        join_table=[
+            {'table': 'salaries', 'alias': 'sal', 'join_method': 'INNER', 'on': 'emp.id = sal.emp_id'}
+        ]
+        #optional
+
+        where=[
+            {'column_name': 'id', 'value': '1', 'operator': '=', 'conjunction': 'AND'}, #operator and conjunction can be omitted
+        ] 
+        #conjunction only required when providing more than one dictionary
+
+        column_name=['first_name'] #can be omitted, when omitted it equals as `select * from blabla`
+
+        order={'first_name': 'ASC'} #optional
+
+        limit=5 #optional
+
+        offset=1 #optional
+        """
         try:
             result = []
             column_name = ','.join(column_name) if column_name else '*'
@@ -77,6 +135,30 @@ class PGDGet:
 
     @classmethod
     async def get_count(cls, connection_string: dict, main_table: dict, where: list = [], join_table:list = []) -> Awaitable[dict]:
+        """Get count always return a dict with key total_data, based on select count(*) in SQL and returning a dictionary with {total_data: value} of the query.
+        Please refer to documentation for thorough guide.
+        
+        Example parameters:  
+        
+        connection_string={
+            'PG_HOST': 'localhost', #using default port 5432
+            'PG_DATABASE': 'postgres',
+            'PG_USER': 'postgres',
+            'PG_PASSWORD': 'password'  
+        } 
+
+        main_table={'table': 'employees', 'alias': 'emp'} #alias can be omitted 
+
+        join_table=[
+            {'table': 'salaries', 'alias': 'sal', 'join_method': 'INNER', 'on': 'emp.id = sal.emp_id'}
+        ]
+        #optional
+
+        where=[
+            {'column_name': 'id', 'value': '1', 'operator': '=', 'conjunction': 'AND'}, #operator and conjunction can be omitted
+        ] 
+        #conjunction only required when providing more than one dictionary
+        """
         try:
             result = []
             query = """
@@ -96,7 +178,7 @@ class PGDGet:
                 join_query += f' {i["table"]} {i["alias"]} ON {i["on"]}'
                 
             query = query.format(main_table=main_table['table'], main_table_alias=main_table['alias'] if main_table.get('alias') else '', join_table=join_query, where_query=where_query)
-            where_values = tuple(wv['value'] if isinstance(wv['value'], str) else tuple(wv['value']) for wv in where )
+            where_values = tuple(wv['value'] for wv in where)
             values = where_values
             with PGDConnection(connection_string, query, values) as cursor:
                 result = cursor.fetchone()[0]
