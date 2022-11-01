@@ -224,7 +224,7 @@ Example DB
         ```
     </details>  
 
-- Select count 
+    - Select count   
         Select count always return a dict with key `total_data`, based on `SELECT COUNT(*)` in SQL and returning a dictionary with `{total_data: value}` of the query.
         Parameters:
         <details>

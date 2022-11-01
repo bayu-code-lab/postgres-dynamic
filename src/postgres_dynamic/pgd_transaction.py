@@ -6,9 +6,14 @@ class PGDTransaction:
         
         Params supplied for column_and_values are dict that contains key, value pair
 
-        Usage: 
-        example query -> INSERT INTO table(col_1, col_2) VALUES (val_1, val_2)
-        input params ex-> column_and_value = {col_1: value_1, col_2: value_2}
+        Example parameters: 
+        connection_object = psycopg2.connect(database='postgres', host='localhost', user='postgres', password='password')
+        
+        main_table='employees',
+
+        column_and_value={'id': 6, 'first_name': 'Harrison', 'last_name': 'Ford'},
+
+        commit=True #optional, if omitted commit=False
         """
         try:
             column_keys = ', '.join([key for key in column_and_value.keys()])
@@ -29,8 +34,19 @@ class PGDTransaction:
     async def update(cls, connection_object: any, main_table: str, column_and_value: dict, where: list, commit: bool = False) -> Awaitable[None]:
         """Dynamic query to update certain table that can takes multiple conditions and target several columns
         
-        Params supplied for column_and_values and condition are dict that contains key, value pair
-        Multiple conditions are concatenated in query using 'AND' clause
+        Example parameters: 
+        connection_object = psycopg2.connect(database='postgres', host='localhost', user='postgres', password='password')
+        
+        main_table='employees',
+
+        column_and_value={'id': 6, 'first_name': 'Tyler', 'last_name': 'Oakley'},
+
+        commit=True #optional, if omitted commit=False
+
+        where=[
+            {'column_name': 'id', 'value': '1', 'operator': '=', 'conjunction': 'AND'}, #operator and conjunction can be omitted
+        ] 
+        #conjunction only required when providing more than one dictionary
         """
         try:
             column_query = ', '.join([key + ' = %s' for key in column_and_value.keys()])
@@ -58,8 +74,17 @@ class PGDTransaction:
     async def delete(cls, connection_object: any, main_table: str, where: list, commit: bool = False) -> Awaitable[None]:
         """Dynamic query to delete data from certain table that can takes several conditions
         
-        Params supplied for conditions are dict that contains key, value pair
-        Multiple conditions are concatenated in query using 'AND' clause
+        Example parameters: 
+        connection_object = psycopg2.connect(database='postgres', host='localhost', user='postgres', password='password')
+        
+        main_table='employees',
+
+        commit=True #optional, if omitted commit=False
+
+        where=[
+            {'column_name': 'id', 'value': '1', 'operator': '=', 'conjunction': 'AND'}, #operator and conjunction can be omitted
+        ] 
+        #conjunction only required when providing more than one dictionary
         """
         try:
             where_query=''

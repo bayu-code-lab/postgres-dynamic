@@ -185,5 +185,3 @@ class PGDGet:
             return {'total_data': result}
         except Exception as e:
             raise e
-
-PGDGet.get_one()
