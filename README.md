@@ -20,7 +20,6 @@ $ pip install postgres-dynamic
     ```Python
     connection_string = {
         'PG_HOST': 'YOUR_CONNETION_HOST_ADDRESS',
-        'PG_PORT': 'YOUR_CONNECTION_PORT',
         'PG_DATABASE': 'YOUR_CONNECTION_DATABASE_NAME',
         'PG_USER': 'YOUR_CONNECTION_USERNAME',
         'PG_PASSWORD': 'YOUR_CONNECTION_PASSWORD',
@@ -179,7 +178,7 @@ Example DB
         ```
         </details>
 
-    - Multi Select
+    - Multi Select  
         Multi select always return a dict with key `data`, based on `fetchall` in psycopg2 and returning a list of dictionary with `{column_name: value}` of the tables.
         Parameters:
         <details>
@@ -225,6 +224,41 @@ Example DB
         ```
     </details>  
 
+    - Select count   
+        Select count always return a dict with key `total_data`, based on `SELECT COUNT(*)` in SQL and returning a dictionary with `{total_data: value}` of the query.
+        Parameters:
+        <details>
+        <summary>Show more...</summary>  
+
+        ```
+        connection_string #required
+        main_table #required
+        where #optional (if omitted no condition will be passed)
+        join_table #optional (if omitted it won't join to any table)
+        ```
+        
+        Code samples:
+        ```Python
+        from postgres_dynamic import PGDGet
+        import asyncio
+
+        query_result = PGDGet.get_count(
+            connection_string={
+                'PG_HOST': 'localhost', #using default port 5432
+                'PG_DATABASE': 'postgres',
+                'PG_USER': 'postgres',
+                'PG_PASSWORD': 'password'  
+            },
+            main_table={'table': 'employees'},
+            where=[{'column_name': 'first_name', 'value': 'Alex'}]
+        )
+
+        result = asyncio.run(query_result)
+        print(result)
+        
+        # {'total_data': 1}
+        ```
+    </details>  
 
 
 - INSERT
