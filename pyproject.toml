@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "postgres-dynamic"
-version = "0.0.6"
+version = "0.0.8"
 authors = [
   { name="Bayu Satria Gemilang", email="bayu.code.lab@gmail.com" },
 ]
-description = "Fast API Google Cloud Storage"
+description = "Postgres Dynamic Query"
 readme = "README.md"
 dependencies = [
     "psycopg2>=2.9.3"

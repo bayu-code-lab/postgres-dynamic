@@ -25,9 +25,11 @@ class PGDTransaction:
             connection_object.cursor().execute(query, value)
             if commit:
                 connection_object.commit()
+                connection_object.close()
             return
         except Exception as e:
             connection_object.rollback()
+            connection_object.close()
             raise e
 
     @classmethod
@@ -65,9 +67,11 @@ class PGDTransaction:
             connection_object.cursor().execute(query, value)
             if commit:
                 connection_object.commit()
+                connection_object.close()
             return
         except Exception as e:
             connection_object.rollback()
+            connection_object.close()
             raise e
 
     @classmethod
@@ -100,7 +104,9 @@ class PGDTransaction:
             connection_object.cursor().execute(query, value)
             if commit:
                 connection_object.commit()
+                connection_object.close()
             return
         except Exception as e:
             connection_object.rollback()
+            connection_object.close()
             raise e
