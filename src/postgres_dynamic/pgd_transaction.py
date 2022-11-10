@@ -1,7 +1,7 @@
 from typing import Awaitable
 class PGDTransaction:
     @classmethod
-    async def insert(cls, connection_object: any, main_table: str, column_and_value: dict, commit: bool = False) -> Awaitable[None]:
+    async def insert(cls, main_table: str, column_and_value: dict, commit: bool = False) -> Awaitable[None]:
         """Dynamic query to insert certain table that can target several columns
         
         Params supplied for column_and_values are dict that contains key, value pair
@@ -22,18 +22,12 @@ class PGDTransaction:
             """
             query = query_template.format(main_table=main_table, column_keys=column_keys, column_values=', '.join(['%s']*(len(column_and_value))))
             value = tuple([value for value in column_and_value.values()])
-            connection_object.cursor().execute(query, value)
-            if commit:
-                connection_object.commit()
-                connection_object.close()
-            return
+            return query, value
         except Exception as e:
-            connection_object.rollback()
-            connection_object.close()
             raise e
 
     @classmethod
-    async def update(cls, connection_object: any, main_table: str, column_and_value: dict, where: list, commit: bool = False) -> Awaitable[None]:
+    async def update(cls, main_table: str, column_and_value: dict, where: list, commit: bool = False) -> Awaitable[None]:
         """Dynamic query to update certain table that can takes multiple conditions and target several columns
         
         Example parameters: 
@@ -64,18 +58,12 @@ class PGDTransaction:
             update_values = tuple(value for value in column_and_value.values())
             where_values = tuple(wv['value'] for wv in where)
             value = update_values + where_values
-            connection_object.cursor().execute(query, value)
-            if commit:
-                connection_object.commit()
-                connection_object.close()
-            return
+            return query, value
         except Exception as e:
-            connection_object.rollback()
-            connection_object.close()
             raise e
 
     @classmethod
-    async def delete(cls, connection_object: any, main_table: str, where: list, commit: bool = False) -> Awaitable[None]:
+    async def delete(cls, main_table: str, where: list, commit: bool = False) -> Awaitable[None]:
         """Dynamic query to delete data from certain table that can takes several conditions
         
         Example parameters: 
@@ -101,12 +89,6 @@ class PGDTransaction:
             """
             query = query_template.format(main_table=main_table, where_query=where_query)
             value = tuple(wv['value'] for wv in where)
-            connection_object.cursor().execute(query, value)
-            if commit:
-                connection_object.commit()
-                connection_object.close()
-            return
+            return query, value
         except Exception as e:
-            connection_object.rollback()
-            connection_object.close()
             raise e

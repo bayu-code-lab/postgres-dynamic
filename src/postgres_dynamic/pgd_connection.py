@@ -15,7 +15,5 @@ class PGDConnection:
     def __enter__(self):
         self.cursor.execute(self.query, self.values)
         return self.cursor
-
     def __exit__(self, exc_type, exc_value, exc_traceback):
         self.connection.close()
-        self.cursor.close
