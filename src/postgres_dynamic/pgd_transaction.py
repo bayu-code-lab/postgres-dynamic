@@ -7,7 +7,6 @@ class PGDTransaction:
         Params supplied for column_and_values are dict that contains key, value pair
 
         Example parameters: 
-        connection_object = psycopg2.connect(database='postgres', host='localhost', user='postgres', password='password')
         
         main_table='employees',
 
@@ -31,7 +30,6 @@ class PGDTransaction:
         """Dynamic query to update certain table that can takes multiple conditions and target several columns
         
         Example parameters: 
-        connection_object = psycopg2.connect(database='postgres', host='localhost', user='postgres', password='password')
         
         main_table='employees',
 
@@ -67,7 +65,6 @@ class PGDTransaction:
         """Dynamic query to delete data from certain table that can takes several conditions
         
         Example parameters: 
-        connection_object = psycopg2.connect(database='postgres', host='localhost', user='postgres', password='password')
         
         main_table='employees',
 

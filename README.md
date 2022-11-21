@@ -16,15 +16,6 @@ $ pip install postgres-dynamic
 </div>
 
 ## Parameter Format:
-- connection_string: dict
-    ```Python
-    connection_string = {
-        'PG_HOST': 'YOUR_CONNETION_HOST_ADDRESS',
-        'PG_DATABASE': 'YOUR_CONNECTION_DATABASE_NAME',
-        'PG_USER': 'YOUR_CONNECTION_USERNAME',
-        'PG_PASSWORD': 'YOUR_CONNECTION_PASSWORD',
-    }
-    ```
 - connection_object: Callable
     ```Python
     connection_object = psycopg2.connect(host,port,database,user,password) #object created from psycopg2.connect()
@@ -118,7 +109,6 @@ Example DB
 
         Parameters:
         ```
-        connection_string #required
         main_table #required
         where #required
         join_table #optional (if omitted it won't join to any table)
@@ -133,12 +123,6 @@ Example DB
         import asyncio
 
         query_result = PGDGet.get_one(
-            connection_string={
-                'PG_HOST': 'localhost', #using default port 5432
-                'PG_DATABASE': 'postgres',
-                'PG_USER': 'postgres',
-                'PG_PASSWORD': 'password'  
-            },
             main_table={'table': 'employees'},
             where=[
                 {'column_name': 'id', 'value': '1'},
@@ -156,12 +140,6 @@ Example DB
         # with join table salaries
 
         query_result = PGDGet.get_one(
-            connection_string={
-                'PG_HOST': 'localhost', #using default port 5432
-                'PG_DATABASE': 'postgres',
-                'PG_USER': 'postgres',
-                'PG_PASSWORD': 'password'  
-            },
             main_table={'table': 'employees', 'alias': 'emp'},
             join_table=[
                 {'table': 'salaries', 'alias': 'sal', 'join_method': 'INNER', 'on': 'emp.id = sal.employee_id'}
@@ -185,7 +163,6 @@ Example DB
         <summary>Show more...</summary>  
 
         ```
-        connection_string #required
         main_table #required
         where #optional (if omitted no condition will be passed)
         join_table #optional (if omitted it won't join to any table)
@@ -206,12 +183,6 @@ Example DB
         import asyncio
 
         query_result = PGDGet.get_all(
-            connection_string={
-                'PG_HOST': 'localhost', #using default port 5432
-                'PG_DATABASE': 'postgres',
-                'PG_USER': 'postgres',
-                'PG_PASSWORD': 'password'  
-            },
             main_table={'table': 'employees'},
             limit=3,
             offset=2
@@ -231,7 +202,6 @@ Example DB
         <summary>Show more...</summary>  
 
         ```
-        connection_string #required
         main_table #required
         where #optional (if omitted no condition will be passed)
         join_table #optional (if omitted it won't join to any table)
@@ -243,12 +213,6 @@ Example DB
         import asyncio
 
         query_result = PGDGet.get_count(
-            connection_string={
-                'PG_HOST': 'localhost', #using default port 5432
-                'PG_DATABASE': 'postgres',
-                'PG_USER': 'postgres',
-                'PG_PASSWORD': 'password'  
-            },
             main_table={'table': 'employees'},
             where=[{'column_name': 'first_name', 'value': 'Alex'}]
         )
@@ -270,7 +234,6 @@ Example DB
 
         Parameters:
         ```
-        connection_object #required
         main_table #required
         column_and_value #required
         commit #optional (if omitted, default value will be False which will not saving any changes to database)
@@ -283,9 +246,7 @@ Example DB
         from postgres_dynamic import PGDTransaction
         import asyncio
 
-        connection_object = psycopg2.connect(database='postgres', host='localhost', port=5432, user='postgres', password='password')
         query_result = PGDTransaction.insert(
-            connection_object=connection_object,
             main_table='employees',
             column_and_value={'id': 6, 'first_name': 'Harrison', 'last_name': 'Ford'},
             commit=True
@@ -301,9 +262,7 @@ Example DB
         ```Python
         # without auto commit
 
-        connection_object = psycopg2.connect(database='postgres', host='localhost', port=5432, user='postgres', password='password')
         query_result = PGDTransaction.insert(
-            connection_object=connection_object,
             main_table='salaries',
             column_and_value={'employee_id': 6, 'salary': 250000},
         )
@@ -330,7 +289,6 @@ Example DB
 
         Parameters:
         ```
-        connection_object #required
         main_table #required
         column_and_value #required
         where #required
@@ -344,9 +302,7 @@ Example DB
         from postgres_dynamic import PGDTransaction
         import asyncio
 
-        connection_object = psycopg2.connect(database='postgres', host='localhost', port=5432, user='postgres', password='password')
         query_result = PGDTransaction.update(
-            connection_object=connection_object,
             main_table='employees',
             column_and_value={'first_name': 'Tyler', 'last_name': 'Oakley'},
             where=[
@@ -365,9 +321,7 @@ Example DB
         ```Python
         # without auto commit
 
-        connection_object = psycopg2.connect(database='postgres', host='localhost', port=5432, user='postgres', password='password')
         query_result = PGDTransaction.update(
-            connection_object=connection_object,
             main_table='salaries',
             column_and_value={'salary': 450000},
             where=[
@@ -398,7 +352,6 @@ Example DB
 
         Parameters:
         ```
-        connection_object #required
         main_table #required
         where #required
         commit #optional (if omitted, default value will be False which will not saving any changes to database)
@@ -411,9 +364,7 @@ Example DB
         from postgres_dynamic import PGDTransaction
         import asyncio
 
-        connection_object = psycopg2.connect(database='postgres', host='localhost', port=5432, user='postgres', password='password')
         query_result = PGDTransaction.delete(
-            connection_object=connection_object,
             main_table='salaries',
             where=[
                 {'column_name': 'employee_id', 'value': '6'},
@@ -431,9 +382,7 @@ Example DB
         ```Python
         # without auto commit
 
-        connection_object = psycopg2.connect(database='postgres', host='localhost', port=5432, user='postgres', password='password')
         query_result = PGDTransaction.delete(
-            connection_object=connection_object,
             main_table='employees',
             where=[
                 {'column_name': 'id', 'value': '6'},

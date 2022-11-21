@@ -4,15 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "postgres-dynamic"
-version = "0.0.9"
+version = "0.0.10"
 authors = [
   { name="Bayu Satria Gemilang", email="bayu.code.lab@gmail.com" },
 ]
 description = "Postgres Dynamic Query"
 readme = "README.md"
-dependencies = [
-    "psycopg2>=2.9.3"
-]
 requires-python = ">=3.7"
 classifiers = [
     "Programming Language :: Python :: 3",
