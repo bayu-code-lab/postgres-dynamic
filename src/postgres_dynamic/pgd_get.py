@@ -35,7 +35,7 @@ class PGDGet:
 
             join_query = ''
             for i in join_table:
-                join_query += ' INNER JOIN' if i['join_method'] == 'INNER' else ' LEFT JOIN' if i['join_method'] == 'LEFT' else ' RIGHT JOIN'
+                join_query += ' INNER JOIN' if i['join_method'] == 'INNER' else ' LEFT JOIN' if i['join_method'] == 'LEFT' else ' RIGHT JOIN' if i['join_method'] == 'RIGHT' else ' FULL JOIN' if i['join_method'] == 'FULL' else ' JOIN'
                 join_query += f' {i["table"]} {i["alias"]} ON {i["on"]}'
 
             query = query.format(column_name=column_name, main_table=main_table['table'], main_table_alias=main_table['alias'] if main_table.get('alias') else '', join_table=join_query, where_query=where_query)
@@ -91,7 +91,7 @@ class PGDGet:
 
             join_query = ''
             for i in join_table:
-                join_query += ' INNER JOIN' if i['join_method'] == 'INNER' else ' LEFT JOIN' if i['join_method'] == 'LEFT' else ' RIGHT JOIN'
+                join_query += ' INNER JOIN' if i['join_method'] == 'INNER' else ' LEFT JOIN' if i['join_method'] == 'LEFT' else ' RIGHT JOIN' if i['join_method'] == 'RIGHT' else ' FULL JOIN' if i['join_method'] == 'FULL' else ' JOIN'
                 join_query += f' {i["table"]} {i["alias"]} ON {i["on"]}'
 
             query = query.format(column_name=column_name, main_table=main_table['table'], main_table_alias=main_table['alias'] if main_table.get('alias') else '', join_table=join_query, where_query=where_query, order_query=order_query)
@@ -134,7 +134,7 @@ class PGDGet:
 
             join_query = ''
             for i in join_table:
-                join_query += ' INNER JOIN' if i['join_method'] == 'INNER' else ' LEFT JOIN' if i['join_method'] == 'LEFT' else ' RIGHT JOIN'
+                join_query += ' INNER JOIN' if i['join_method'] == 'INNER' else ' LEFT JOIN' if i['join_method'] == 'LEFT' else ' RIGHT JOIN' if i['join_method'] == 'RIGHT' else ' FULL JOIN' if i['join_method'] == 'FULL' else ' JOIN'
                 join_query += f' {i["table"]} {i["alias"]} ON {i["on"]}'
                 
             query = query.format(main_table=main_table['table'], main_table_alias=main_table['alias'] if main_table.get('alias') else '', join_table=join_query, where_query=where_query)
